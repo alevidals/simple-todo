@@ -11,12 +11,21 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(uuid())
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  username     String   @unique
-  passwordHash String
-  Todo         Todo[]
+  id                   String                @id @default(uuid())
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+  username             String                @unique
+  passwordHash         String
+  Todo                 Todo[]
+  ProfileConfiguration ProfileConfiguration?
+}
+
+model ProfileConfiguration {
+  id              String  @id @default(uuid())
+  colorTheme      String  @default("slate")
+  askConfirmation Boolean @default(true)
+  userId          String  @unique
+  user            User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Todo {

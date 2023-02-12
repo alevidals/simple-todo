@@ -1,9 +1,15 @@
-import type { ActionArgs } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
 import { InputError } from "~/components/InputError";
 import { db } from "~/utils/db.server";
 import { badRequest } from "~/utils/request.server";
-import { createUserSession, login, register } from "~/utils/session.server";
+import {
+  createUserSession,
+  getUserId,
+  login,
+  register,
+} from "~/utils/session.server";
 
 function validateUsername(username: string) {
   if (username.length < 3) {
@@ -98,6 +104,14 @@ export const action = async ({ request }: ActionArgs) => {
       });
     }
   }
+};
+
+export const loader = async ({ request }: LoaderArgs) => {
+  const userId = await getUserId(request);
+
+  if (userId) return redirect("/");
+
+  return json({});
 };
 
 export default function Login() {

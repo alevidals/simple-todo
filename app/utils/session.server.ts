@@ -13,6 +13,15 @@ export async function register({ username, password }: LoginForm) {
   const user = await db.user.create({
     data: { username, passwordHash },
   });
+
+  // TODO: check if profile configuration created correctly if not delete the user and send an error
+
+  await db.profileConfiguration.create({
+    data: {
+      userId: user.id,
+    },
+  });
+
   return { id: user.id, username };
 }
 
