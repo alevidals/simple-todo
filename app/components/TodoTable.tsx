@@ -1,10 +1,9 @@
-import { PlusIcon, XMarkIcon } from "@heroicons/react/20/solid";
+import { PlusIcon } from "@heroicons/react/20/solid";
 import { Form, useActionData, useLoaderData } from "@remix-run/react";
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import type { action, loader } from "~/routes";
 import { InputError } from "./InputError";
-import { classNames } from "~/utils/helpers";
 import { Todo } from "./Todo";
 
 export function TodoTable() {
@@ -34,7 +33,7 @@ export function TodoTable() {
           <PlusIcon />
         </button>
       </header>
-      <ul className="mt-10 h-[300px] space-y-3 overflow-y-scroll scrollbar-hide">
+      <ul className="mt-10 h-[295px] space-y-3 overflow-y-scroll scrollbar-hide">
         {loaderData.todos.map((todo, index) => (
           <Todo key={todo.id} {...todo} />
         ))}
