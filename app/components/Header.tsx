@@ -1,11 +1,7 @@
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "~/routes";
 
-type HeaderProps = {
-  username?: string;
-};
-
-export function Header({ username }: HeaderProps) {
+export function Header() {
   const loaderData = useLoaderData<typeof loader>();
 
   return (

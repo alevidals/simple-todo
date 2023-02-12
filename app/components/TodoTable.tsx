@@ -34,7 +34,7 @@ export function TodoTable() {
         </button>
       </header>
       <ul className="mt-10 h-[295px] space-y-3 overflow-y-scroll scrollbar-hide">
-        {loaderData.todos.map((todo, index) => (
+        {loaderData.todos.map((todo) => (
           <Todo key={todo.id} {...todo} />
         ))}
       </ul>
@@ -98,9 +98,5 @@ export function TodoTable() {
         </Dialog>
       </Transition>
     </div>
-    // <div className="bg-green-500 h-[450px] rounded-md shadow-2xl grid grid-cols-4 overflow-hidden">
-    //   <div className="bg-blue-400"></div>
-    //   <div className="bg-red-400 col-span-3"></div>
-    // </div>
   );
 }
