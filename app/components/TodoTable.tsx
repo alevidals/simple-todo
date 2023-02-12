@@ -1,22 +1,16 @@
 import { PlusIcon, XMarkIcon } from "@heroicons/react/20/solid";
-import { Form } from "@remix-run/react";
+import { Form, useActionData, useLoaderData } from "@remix-run/react";
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import type { action, loader } from "~/routes";
+import { InputError } from "./InputError";
+import { classNames } from "~/utils/helpers";
+import { Todo } from "./Todo";
 
-type Todo = {
-  id: string;
-  text: string;
-};
+export function TodoTable() {
+  const loaderData = useLoaderData<typeof loader>();
+  const actionData = useActionData<typeof action>();
 
-type TodoTableProps = {
-  todos: Todo[];
-};
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
-
-export function TodoTable({ todos }: TodoTableProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   function closeModal() {
@@ -28,9 +22,11 @@ export function TodoTable({ todos }: TodoTableProps) {
   }
 
   return (
-    <div className="h-[450px] overflow-y-scroll rounded-md bg-gray-100 p-10 shadow-2xl">
+    <div className="h-[450px] rounded-md bg-gray-100 p-10 shadow-2xl">
       <header className="flex items-center justify-between">
-        <h2 className="text-3xl font-semibold text-slate-800">Reminders</h2>
+        <h2 className="text-xl font-semibold text-slate-800 md:text-2xl">
+          Reminders
+        </h2>
         <button
           className="h-5 w-5 text-slate-800 transition duration-100 hover:text-slate-500"
           onClick={openModal}
@@ -38,26 +34,9 @@ export function TodoTable({ todos }: TodoTableProps) {
           <PlusIcon />
         </button>
       </header>
-      <ul className="mt-10 space-y-3">
-        {todos.map((todo, index) => (
-          <li
-            key={todo.id}
-            className={classNames(
-              "group flex items-center justify-between py-2 text-slate-800"
-            )}
-          >
-            <span>{todo.text}</span>
-            <Form method="delete">
-              <button
-                type="submit"
-                name="id"
-                value={todo.id}
-                className="invisible text-slate-500 hover:text-slate-800 group-hover:visible"
-              >
-                <XMarkIcon className="h-5 w-5 " />
-              </button>
-            </Form>
-          </li>
+      <ul className="mt-10 h-[300px] space-y-3 overflow-y-scroll scrollbar-hide">
+        {loaderData.todos.map((todo, index) => (
+          <Todo key={todo.id} {...todo} />
         ))}
       </ul>
       {/*  */}
@@ -102,6 +81,9 @@ export function TodoTable({ todos }: TodoTableProps) {
                         autoComplete="off"
                         className="h-11 rounded-md bg-gray-200 px-3 text-slate-800 accent-slate-800"
                       />
+                      {actionData?.fieldErrors?.todoText ? (
+                        <InputError text={actionData.fieldErrors.todoText} />
+                      ) : null}
                     </div>
                     <button
                       type="submit"

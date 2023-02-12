@@ -1,7 +1,6 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
 import { Header } from "~/components/Header";
 import { TodoTable } from "~/components/TodoTable";
 import { db } from "~/utils/db.server";
@@ -9,7 +8,7 @@ import { badRequest } from "~/utils/request.server";
 import { getUser, requireUserId } from "~/utils/session.server";
 
 function validateTodoText(todoText: string) {
-  if (!validateTodoText) {
+  if (!todoText) {
     return "The text can not be empty";
   }
 }
@@ -107,12 +106,10 @@ export const loader = async ({ request }: LoaderArgs) => {
 };
 
 export default function Index() {
-  const loaderData = useLoaderData<typeof loader>();
-
   return (
-    <main className="mx-auto mt-10 max-w-3xl">
-      <Header username={loaderData.user?.username} />
-      <TodoTable todos={loaderData.todos} />
+    <main className="mx-auto mt-10 max-h-screen px-4 sm:max-w-3xl">
+      <Header />
+      <TodoTable />
     </main>
   );
 }

@@ -104,10 +104,10 @@ export default function Login() {
   const actionData = useActionData<typeof action>();
 
   return (
-    <main className="flex h-screen items-center justify-center">
+    <main className="flex h-screen items-center justify-center px-4 sm:px-0">
       <Form
         method="post"
-        className="h-auto w-96 rounded-lg bg-gray-100 p-5 shadow-2xl"
+        className="w-96 rounded-lg bg-gray-100 p-5 shadow-2xl"
       >
         <h1 className="text-center text-3xl font-semibold text-slate-800">
           Simple Todo
@@ -195,6 +195,11 @@ export default function Login() {
           />
           {actionData?.fieldErrors?.password ? (
             <InputError text={actionData.fieldErrors.password} />
+          ) : null}
+        </div>
+        <div>
+          {actionData?.formError ? (
+            <InputError text={actionData.formError} className="mb-5" />
           ) : null}
         </div>
         <button
