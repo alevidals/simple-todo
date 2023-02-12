@@ -1,16 +1,19 @@
-import { useLoaderData } from "@remix-run/react";
-import type { loader } from "~/routes";
+import { Link, useLoaderData } from "@remix-run/react";
+import type { loader } from "~/root";
 
 export function Header() {
   const loaderData = useLoaderData<typeof loader>();
 
   return (
     <header className="mb-10 flex items-center justify-between space-x-5">
-      <h1 className="text-2xl font-bold text-slate-800 md:text-3xl">
+      <Link to="/" className="text-2xl font-bold text-slate-800 md:text-3xl">
         Simple Todo
-      </h1>
+      </Link>
       <div className="flex items-center space-x-5">
         <span className="font-medium text-slate-800">{`Hi ${loaderData.user?.username}`}</span>
+        <Link to="/profile" className="font-medium text-slate-800">
+          Profile
+        </Link>
         <form action="/logout" method="post">
           <button
             type="submit"

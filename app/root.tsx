@@ -1,4 +1,4 @@
-import type { MetaFunction } from "@remix-run/node";
+import { json, LoaderArgs, MetaFunction, redirect } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -9,6 +9,7 @@ import {
 } from "@remix-run/react";
 
 import styles from "./styles/app.css";
+import { getUser } from "./utils/session.server";
 
 export function links() {
   return [{ rel: "stylesheet", href: styles }];
@@ -19,6 +20,12 @@ export const meta: MetaFunction = () => ({
   title: "Simple todo 🗒️",
   viewport: "width=device-width,initial-scale=1",
 });
+
+export const loader = async ({ request }: LoaderArgs) => {
+  const user = await getUser(request);
+
+  return json({ user });
+};
 
 export default function App() {
   return (

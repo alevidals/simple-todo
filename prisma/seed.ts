@@ -10,6 +10,12 @@ async function seed() {
     },
   });
 
+  await db.profileConfiguration.create({
+    data: {
+      userId: testUser.id,
+    },
+  });
+
   await Promise.all(
     mockTodos().map((todo) => {
       const data = { userId: testUser.id, ...todo };
