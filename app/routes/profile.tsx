@@ -13,18 +13,13 @@ export const action = async ({ request }: ActionArgs) => {
   const confirmation = form.get("confirmation");
   const colorScheme = form.get("colorScheme");
 
-  if (typeof confirmation !== "string" || typeof colorScheme !== "string") {
+  if (typeof colorScheme !== "string") {
     return badRequest({
       fieldErrors: null,
       fields: null,
       formError: `Form not submitted correctly.`,
     });
   }
-
-  // const profileConfiguration = await db.profileConfiguration.findUnique({
-  //   where: { userId },
-  // });
-  // TODO: if (!profileConfiguration) {}
 
   await db.profileConfiguration.update({
     where: { userId },
