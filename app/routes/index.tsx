@@ -1,7 +1,6 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Header } from "~/components/Header";
 import { TodoTable } from "~/components/TodoTable";
 import { db } from "~/utils/db.server";
 import { badRequest } from "~/utils/request.server";
@@ -107,8 +106,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 
 export default function Index() {
   return (
-    <main className="mx-auto mt-10 max-h-screen px-4 sm:max-w-3xl">
-      <Header />
+    <main>
       <TodoTable />
     </main>
   );

@@ -5,6 +5,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import type { action, loader } from "~/routes";
 import { InputError } from "./InputError";
 import { Todo } from "./Todo";
+import { classNames } from "~/utils/helpers";
 
 export function TodoTable() {
   const loaderData = useLoaderData<typeof loader>();
@@ -23,11 +24,19 @@ export function TodoTable() {
   return (
     <div className="h-[450px] rounded-md bg-gray-100 p-10 shadow-2xl">
       <header className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold text-slate-800 md:text-2xl">
+        <h2
+          className={classNames(
+            "text-xl font-semibold md:text-2xl",
+            `text-${loaderData.user?.ProfileConfiguration?.colorTheme}-800`
+          )}
+        >
           Reminders
         </h2>
         <button
-          className="h-5 w-5 text-slate-800 transition duration-100 hover:text-slate-500"
+          className={classNames(
+            "h-5 w-5 transition duration-100 hover:text-slate-500",
+            `text-${loaderData.user?.ProfileConfiguration?.colorTheme}-800`
+          )}
           onClick={openModal}
         >
           <PlusIcon />

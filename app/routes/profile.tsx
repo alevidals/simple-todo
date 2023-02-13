@@ -6,6 +6,7 @@ import { db } from "~/utils/db.server";
 import { classNames } from "~/utils/helpers";
 import { badRequest } from "~/utils/request.server";
 import { requireUserId } from "~/utils/session.server";
+import { loader as rootLoader } from "~/root";
 
 export const action = async ({ request }: ActionArgs) => {
   const form = await request.formData();
@@ -80,13 +81,21 @@ const colors = [
 
 export default function Profile() {
   const loaderData = useLoaderData<typeof loader>();
+  const rootLoaderData = useLoaderData<typeof rootLoader>();
 
+  const colorTheme = rootLoaderData.profileConfiguration?.colorTheme;
+
+  console.log(rootLoaderData);
   return (
-    <main className="mx-auto mt-10 max-h-screen px-4 sm:max-w-3xl">
-      <Header />
+    <main>
       <div className="h-[450px] rounded-md bg-gray-100 p-10 shadow-2xl">
         <header className="flex items-center justify-between">
-          <h2 className="text-xl font-bold text-slate-800 md:text-2xl">
+          <h2
+            className={classNames(
+              "text-xl font-bold md:text-2xl",
+              `text-${colorTheme}-800`
+            )}
+          >
             Profile configuration
           </h2>
         </header>
@@ -94,7 +103,10 @@ export default function Profile() {
           <div className="mb-5 flex items-center space-x-3">
             <label
               htmlFor="confirmation"
-              className="select-none font-semibold text-slate-800"
+              className={classNames(
+                "select-none font-semibold",
+                `text-${colorTheme}-800`
+              )}
             >
               Delete confirmation
             </label>
@@ -103,11 +115,16 @@ export default function Profile() {
               name="confirmation"
               id="confirmation"
               defaultChecked={loaderData.profileConfiguration.askConfirmation}
-              className="accent-slate-800"
+              className={classNames(`accent-${colorTheme}-800`)}
             />
           </div>
           <div className="mb-5 flex flex-col items-start space-y-3">
-            <p className="select-none font-semibold text-slate-800">
+            <p
+              className={classNames(
+                "select-none font-semibold",
+                `text-${colorTheme}-800`
+              )}
+            >
               Color theme
             </p>
             <div className="grid grid-cols-4 gap-3">
@@ -125,14 +142,22 @@ export default function Profile() {
                       color.toLowerCase()
                     }
                   />
-                  <label htmlFor={color.toLowerCase()}>{color}</label>
+                  <label
+                    htmlFor={color.toLowerCase()}
+                    className={`text-${color.toLowerCase()}-800`}
+                  >
+                    {color}
+                  </label>
                 </div>
               ))}
             </div>
           </div>
           <button
             type="submit"
-            className="h-9 rounded-lg bg-slate-800 px-4 font-bold text-white transition duration-100 hover:bg-slate-900"
+            className={classNames(
+              "h-9 rounded-lg px-4 font-bold text-white transition duration-100",
+              `bg-${colorTheme}-800 hover:bg-${colorTheme}-900`
+            )}
           >
             Save
           </button>

@@ -1,4 +1,10 @@
-import { json, LoaderArgs, MetaFunction, redirect } from "@remix-run/node";
+import {
+  json,
+  LoaderArgs,
+  MetaFunction,
+  redirect,
+  Response,
+} from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -6,9 +12,13 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLocation,
 } from "@remix-run/react";
+import { Header } from "./components/Header";
 
 import styles from "./styles/app.css";
+import { db } from "./utils/db.server";
+import { classNames } from "./utils/helpers";
 import { getUser } from "./utils/session.server";
 
 export function links() {
@@ -28,13 +38,21 @@ export const loader = async ({ request }: LoaderArgs) => {
 };
 
 export default function App() {
+  const { pathname } = useLocation();
+
   return (
     <html lang="en">
       <head>
         <Meta />
         <Links />
       </head>
-      <body className="bg-gray-300 font-inter">
+      <body
+        className={classNames(
+          "mx-auto max-h-screen bg-gray-300 px-4 font-inter sm:max-w-3xl",
+          pathname !== "/login" ? "mt-10" : ""
+        )}
+      >
+        {pathname !== "/login" && <Header />}
         <Outlet />
         <ScrollRestoration />
         <Scripts />
