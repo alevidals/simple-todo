@@ -1,12 +1,10 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { Form, useLoaderData } from "@remix-run/react";
-import { Header } from "~/components/Header";
+import { Form, useLoaderData, useRouteLoaderData } from "@remix-run/react";
 import { db } from "~/utils/db.server";
 import { classNames } from "~/utils/helpers";
 import { badRequest } from "~/utils/request.server";
 import { requireUserId } from "~/utils/session.server";
-import { loader as rootLoader } from "~/root";
 
 export const action = async ({ request }: ActionArgs) => {
   const form = await request.formData();
@@ -81,11 +79,10 @@ const colors = [
 
 export default function Profile() {
   const loaderData = useLoaderData<typeof loader>();
-  const rootLoaderData = useLoaderData<typeof rootLoader>();
+  const rootLoaderData = useRouteLoaderData("root") as any; // TODO: delete any
 
-  const colorTheme = rootLoaderData.profileConfiguration?.colorTheme;
+  const colorTheme = rootLoaderData.profileConfiguration.colorTheme;
 
-  console.log(rootLoaderData);
   return (
     <main>
       <div className="h-[450px] rounded-md bg-gray-100 p-10 shadow-2xl">

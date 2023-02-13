@@ -1,5 +1,10 @@
 import { PlusIcon } from "@heroicons/react/20/solid";
-import { Form, useActionData, useLoaderData } from "@remix-run/react";
+import {
+  Form,
+  useActionData,
+  useLoaderData,
+  useRouteLoaderData,
+} from "@remix-run/react";
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import type { action, loader } from "~/routes";
@@ -8,12 +13,13 @@ import { Todo } from "./Todo";
 import { classNames } from "~/utils/helpers";
 
 export function TodoTable() {
-  const loaderData = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
+  const indexLoaderData = useLoaderData<typeof loader>();
+  const rootLoaderData = useRouteLoaderData("root") as any; // TODO: delete any
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const color = loaderData.user?.ProfileConfiguration?.colorTheme;
+  const color = rootLoaderData.profileConfiguration.colorTheme;
 
   function closeModal() {
     setIsOpen(false);
@@ -45,11 +51,10 @@ export function TodoTable() {
         </button>
       </header>
       <ul className="mt-10 h-[295px] space-y-3 overflow-y-scroll scrollbar-hide">
-        {loaderData.todos.map((todo) => (
+        {indexLoaderData.todos.map((todo) => (
           <Todo key={todo.id} {...todo} />
         ))}
       </ul>
-      {/*  */}
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
           <Transition.Child

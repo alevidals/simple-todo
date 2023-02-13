@@ -16,8 +16,8 @@ model User {
   updatedAt            DateTime              @updatedAt
   username             String                @unique
   passwordHash         String
-  Todo                 Todo[]
-  ProfileConfiguration ProfileConfiguration?
+  todos                Todo[]
+  profileConfiguration ProfileConfiguration?
 }
 
 model ProfileConfiguration {

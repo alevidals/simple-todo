@@ -1,10 +1,5 @@
-import {
-  json,
-  LoaderArgs,
-  MetaFunction,
-  redirect,
-  Response,
-} from "@remix-run/node";
+import type { LoaderArgs, MetaFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -34,7 +29,14 @@ export const meta: MetaFunction = () => ({
 export const loader = async ({ request }: LoaderArgs) => {
   const user = await getUser(request);
 
-  return json({ user });
+  const profileConfiguration = await db.profileConfiguration.findUnique({
+    select: { askConfirmation: true, colorTheme: true },
+    where: {
+      userId: user?.id,
+    },
+  });
+
+  return json({ user, profileConfiguration });
 };
 
 export default function App() {

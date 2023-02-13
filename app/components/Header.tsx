@@ -1,11 +1,10 @@
-import { Link, useLoaderData } from "@remix-run/react";
-import type { loader } from "~/root";
+import { Link, useRouteLoaderData } from "@remix-run/react";
 import { classNames } from "~/utils/helpers";
 
 export function Header() {
-  const loaderData = useLoaderData<typeof loader>();
+  const rootLoaderData = useRouteLoaderData("root") as any; // TODO: delete any
 
-  const colorTheme = loaderData.user?.ProfileConfiguration?.colorTheme;
+  const colorTheme = rootLoaderData.profileConfiguration.colorTheme;
 
   return (
     <header className="mb-10 flex items-center justify-between space-x-5">
@@ -21,7 +20,7 @@ export function Header() {
       <div className="flex items-center space-x-5">
         <span
           className={classNames("font-medium", `text-${colorTheme}-800`)}
-        >{`Hi ${loaderData.user?.username}`}</span>
+        >{`Hi ${rootLoaderData.user?.username}`}</span>
         <Link
           to="/profile"
           className={classNames("font-medium", `text-${colorTheme}-800`)}

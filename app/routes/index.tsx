@@ -4,7 +4,7 @@ import { json } from "@remix-run/node";
 import { TodoTable } from "~/components/TodoTable";
 import { db } from "~/utils/db.server";
 import { badRequest } from "~/utils/request.server";
-import { getUser, requireUserId } from "~/utils/session.server";
+import { requireUserId } from "~/utils/session.server";
 
 function validateTodoText(todoText: string) {
   if (!todoText) {
@@ -89,17 +89,14 @@ export const action = async ({ request }: LoaderArgs) => {
 };
 
 export const loader = async ({ request }: LoaderArgs) => {
-  await requireUserId(request);
-
-  const user = await getUser(request);
+  const userId = await requireUserId(request);
 
   const todos = await db.todo.findMany({
     select: { id: true, text: true },
-    where: { userId: user?.id },
+    where: { userId: userId },
   });
 
   return json({
-    user,
     todos,
   });
 };

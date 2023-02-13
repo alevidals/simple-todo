@@ -1,8 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/20/solid";
-import { Form, useLoaderData } from "@remix-run/react";
+import { Form, useRouteLoaderData } from "@remix-run/react";
 import { Fragment, useState } from "react";
-import type { loader } from "~/root";
 import { classNames } from "~/utils/helpers";
 
 type TodoProps = {
@@ -11,11 +10,11 @@ type TodoProps = {
 };
 
 export function Todo({ id, text }: TodoProps) {
-  const rootLoader = useLoaderData<typeof loader>();
+  const rootLoader = useRouteLoaderData("root") as any; // TODO: delete any
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const color = rootLoader.user?.ProfileConfiguration?.colorTheme;
+  const color = rootLoader.profileConfiguration.colorTheme;
 
   function closeModal() {
     setIsOpen(false);
