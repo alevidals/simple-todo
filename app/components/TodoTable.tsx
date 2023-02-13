@@ -13,6 +13,8 @@ export function TodoTable() {
 
   const [isOpen, setIsOpen] = useState(false);
 
+  const color = loaderData.user?.ProfileConfiguration?.colorTheme;
+
   function closeModal() {
     setIsOpen(false);
   }
@@ -27,15 +29,15 @@ export function TodoTable() {
         <h2
           className={classNames(
             "text-xl font-semibold md:text-2xl",
-            `text-${loaderData.user?.ProfileConfiguration?.colorTheme}-800`
+            `text-${color}-800`
           )}
         >
           Reminders
         </h2>
         <button
           className={classNames(
-            "h-5 w-5 transition duration-100 hover:text-slate-500",
-            `text-${loaderData.user?.ProfileConfiguration?.colorTheme}-800`
+            "h-5 w-5 transition duration-100",
+            `text-${color}-800 hover:text-${color}-500`
           )}
           onClick={openModal}
         >
@@ -78,7 +80,10 @@ export function TodoTable() {
                     <div className="mb-5 flex flex-col space-y-2">
                       <label
                         htmlFor="todo"
-                        className="select-none font-semibold text-slate-800"
+                        className={classNames(
+                          "select-none font-semibold",
+                          `text-${color}-800`
+                        )}
                       >
                         Todo
                       </label>
@@ -87,7 +92,10 @@ export function TodoTable() {
                         name="todo-text"
                         id="todo"
                         autoComplete="off"
-                        className="h-11 rounded-md bg-gray-200 px-3 text-slate-800 accent-slate-800"
+                        className={classNames(
+                          "h-11 rounded-md bg-gray-200 px-3",
+                          `text-${color}-800 accent-${color}-800`
+                        )}
                       />
                       {actionData?.fieldErrors?.todoText ? (
                         <InputError text={actionData.fieldErrors.todoText} />
@@ -95,7 +103,10 @@ export function TodoTable() {
                     </div>
                     <button
                       type="submit"
-                      className="h-11 w-full rounded-lg bg-slate-800 px-4 font-bold text-white transition duration-100 hover:bg-slate-900"
+                      className={classNames(
+                        "h-11 w-full rounded-lg px-4 font-bold text-white transition duration-100",
+                        `bg-${color}-800 hover:bg-${color}-900`
+                      )}
                     >
                       Submit
                     </button>
