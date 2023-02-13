@@ -50,11 +50,17 @@ export function TodoTable() {
           <PlusIcon />
         </button>
       </header>
-      <ul className="mt-10 h-[295px] space-y-3 overflow-y-scroll scrollbar-hide">
-        {indexLoaderData.todos.map((todo) => (
-          <Todo key={todo.id} {...todo} />
-        ))}
-      </ul>
+      {indexLoaderData.todos.length > 0 ? (
+        <ul className="mt-10 h-[295px] space-y-3 overflow-y-scroll scrollbar-hide">
+          {indexLoaderData.todos.map((todo) => (
+            <Todo key={todo.id} {...todo} />
+          ))}
+        </ul>
+      ) : (
+        <p className={classNames("mt-10 space-y-3 py-2", `text-${color}-600`)}>
+          ✅ Congratulations you have finish all your work
+        </p>
+      )}
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
           <Transition.Child
